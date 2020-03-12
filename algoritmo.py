@@ -63,7 +63,7 @@ class AlgoritmoBarrido():
         interseccion = si.interseccion(sd)
         if not interseccion:
             return
-        if p < interseccion:
+        if p.y > interseccion.y:
             e = Evento(interseccion)
             e.C.add(si)
             e.C.add(sd)
