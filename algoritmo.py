@@ -70,5 +70,11 @@ class AlgoritmoBarrido():
             self.Q.add(e)
 
     def barrer(self):
-        for e in self.Q.eventos.q:
+        e = None
+        if self.Q.eventos.q:
+            e = self.Q.eventos.q.pop(0)
+        while e:
             self.procesar(e)
+            e = None
+            if self.Q.eventos.q:
+                e = self.Q.eventos.q.pop(0)
