@@ -14,7 +14,7 @@ class Segmento:
         return hash(tuple(self.puntos))
 
     def calcularX(self, y):
-        y += 0.01
+        y -= 0.01
         x1, y1 = self.puntos[0].x, self.puntos[0].y
         x2, y2 = self.puntos[1].x, self.puntos[1].y
 
