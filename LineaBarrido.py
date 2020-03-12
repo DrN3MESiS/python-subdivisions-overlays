@@ -16,6 +16,8 @@ class LineaBarrido:
         try:
             for i in range(len(self.segmentos)):
                 if self.segmentos[i].x > x:
+                    if i == 0:
+                        return None
                     return self.segmentos[i-1]
             return self.segmentos[-1]
         except IndexError:
@@ -26,6 +28,6 @@ class LineaBarrido:
             for i in range(len(self.segmentos)):
                 if self.segmentos[i].x > x:
                     return self.segmentos[i]
-            return self.segmentos[-1]
+            return None
         except IndexError:
             return None
