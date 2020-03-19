@@ -1,2 +1,3 @@
 
-f = open("demofile.txt", "r")
+def obtenerSegmentos(names=[]):
+    pass
