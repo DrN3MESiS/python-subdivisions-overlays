@@ -1,26 +1,16 @@
-from algoritmo import AlgoritmoBarrido
-from Punto import Punto
-from Segmento import Segmento
-from Reader import getSegments
+from Layer import Layer
 
 
 def main():
-    names = ["ejemplo_01/layer01", "ejemplo_01/layer02"]
-    points = []
-    segmentos = getSegments(names, points)
+  dir = "ejemplo_01/"
 
-    # s1 = Segmento(Punto(10, 10), Punto(0, 0))
-    # s2 = Segmento(Punto(10, 0), Punto(0, 10))
+  layer01 = Layer(dir +"layer01")
+  print(layer01)
 
-    # segmentos = [s1, s2]
+  layer02 = Layer(dir+"layer02")
+  print(layer02)
 
-    for s in segmentos:
-        print(s)
+  layer01.layer_union(layer02)
 
-    barr = AlgoritmoBarrido(segmentos)
-    barr.barrer()
-    print(barr.R)
-
-
-if __name__ == "__main__":
+if __name__=="__main__":
     main()
