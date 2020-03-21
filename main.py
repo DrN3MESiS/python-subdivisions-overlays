@@ -1,23 +1,16 @@
-from algoritmo import AlgoritmoBarrido
-from Punto import Punto
-from Segmento import Segmento
+from Layer import Layer
 
 def main():
 
-  s1 = Segmento(Punto(10,10), Punto(0,0))
-  s2 = Segmento(Punto(10,0), Punto(0,10))
+  dir = "ejemplo_01/"
 
-  segmentos = [s1,s2]
+  layer01 = Layer(dir +"layer01")
+  print(layer01)
 
-  for s in segmentos:
-      print(s)
+  layer02 = Layer(dir+"layer02")
+  print(layer02)
 
-  barr = AlgoritmoBarrido(segmentos)
-  barr.barrer()
-  print(barr.R)
+  layer01.layer_union(layer02)
 
 if __name__=="__main__":
     main()
-
-
-
