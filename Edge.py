@@ -9,10 +9,13 @@ class Edge:
         self.previous = previousEdge
 
     def __repr__(self):
-        return f"|{self.name} -> S:{self.start}|"
+        return f"|Edge: {self.name} -> (S: {type(self.start)} {self.start.name}) - (P: {type(self.pair)} {self.pair.name}) - (N: {type(self.pair)} {self.next.name}) - (Pr: {type(self.pair)} {self.previous.name})|"
 
     def gS(self):
         return self.start
+
+    def gN(self):
+        return self.name
 
     def setStart(self, start):
         self.start = start
