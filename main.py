@@ -5,6 +5,11 @@ from Reader import getSegments
 
 
 def main():
+    # Linked Lists
+    POINTS = []
+    EDGES = []
+
+    # Intersections Lists
     names = ["ejemplo_01/layer01", "ejemplo_01/layer02"]
     points = []
     segmentos = getSegments(names, points)
@@ -17,8 +22,7 @@ def main():
     print(barr.R)
 
     # Double Linked Intersections
-    POINTS = []
-    EDGES = []
+
     POINTS.extend(points)
     print(POINTS)
 
