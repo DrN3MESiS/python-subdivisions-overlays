@@ -6,16 +6,13 @@ from Reader import getSegments
 
 def main():
     # Linked Lists
-    POINTS = []
+    VERTEX = []
     EDGES = []
 
     # Intersections Lists
     names = ["ejemplo_01/layer01", "ejemplo_01/layer02"]
-    points = []
-    segmentos = getSegments(names, points)
-
-    for s in segmentos:
-        print(s)
+    segmentos = getSegments(names, VERTEX, EDGES)
+    resetMemDir(VERTEX, EDGES)
 
     barr = AlgoritmoBarrido(segmentos)
     barr.barrer()
@@ -23,15 +20,13 @@ def main():
 
     # Double Linked Intersections
 
-    POINTS.extend(points)
-    print(POINTS)
-
-    for p in barr.R:
-        if type(p) == Punto:
-            POINTS.append(p)
-
-    print(POINTS)
+    print(VERTEX)
+    print(EDGES)
 
 
 if __name__ == "__main__":
     main()
+
+
+def resetMemDir(VERTEX, EDGES):
+    pass
