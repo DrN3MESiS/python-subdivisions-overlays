@@ -14,7 +14,14 @@ def main():
 
     barr = AlgoritmoBarrido(segmentos)
     barr.barrer()
-    print(barr.R)
+
+    # Double Linked Intersections
+    POINTS = []
+    EDGES = []
+    POINTS.extend(points)
+
+    for p in barr.R:
+        print(p)
 
 
 if __name__ == "__main__":
