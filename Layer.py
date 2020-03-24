@@ -4,13 +4,15 @@ from Vertex import Vertex
 from Segmento import Segmento
 from Punto import Punto
 from algoritmo import AlgoritmoBarrido
-
+from copy import deepcopy
 
 class Layer:
 
   def __init__(self, file):
     self.Elements = dict()
+    self.V = dict()
     self.E = dict()
+    self.F = dict()
 
     self.assign_values(file)
 
@@ -20,6 +22,7 @@ class Layer:
         line = vertex.split()
         if(line[0][0] == 'p'):
           self.Elements[line[0]] = Vertex(line)
+          self.V[line[0]] = Vertex(line)
     f.close()
 
     f = open(file+".car","r")
@@ -27,6 +30,7 @@ class Layer:
         line = face.split()
         if(line[0][0] == 'f'):
           self.Elements[line[0]] = Face(line)
+          self.F[line[0]] = Face(line)
     f.close()
 
     f = open(file+".ari","r")
@@ -48,7 +52,7 @@ class Layer:
       edge = self.E[key]
       origin = self.Elements[self.E[key].origin]
       end = self.Elements[self.Elements[edge.next].origin]
-      segmentos.append(Segmento(Punto(origin.x,origin.y),Punto(end.x,end.y)))
+      segmentos.append(Segmento(edge,Punto(int(origin.x),int(origin.y)),Punto(int(end.x),int(end.y))))
 
     return segmentos  
 
@@ -67,4 +71,63 @@ class Layer:
 
     barr = AlgoritmoBarrido(segmentos)
     barr.barrer()
-    print(barr.R)  
+    print(barr.R)
+
+    file = "union_layer"
+
+    f = open(file+".ver","w")
+    f.write("Archivo de vértices\n#################################\nNombre  x       y       Incidente\n#################################\n")
+    f.close()
+    f = open(file+".ver","a")
+    for key in self.V:
+      vertex = self.V[key]
+      f.write(str(vertex))
+    for key in other.V:
+      vertex = other.V[key]
+      f.write(str(vertex))
+    for index in range(0,len(barr.R),2):
+      coord = barr.R[index]
+      vertex = Vertex(["pi"+str(index),str(coord.x),str(coord.y),list(barr.R[index+1])[0].Edge.name])
+      f.write(str(vertex))
+    f.close()
+
+    f = open(file+".car","w")
+    f.write("Archivo de caras\n#######################\nNombre  Interno Externo\n#######################\n")
+    f.close()
+    f = open(file+".car","a")
+    for key in self.F:
+      face = self.F[key]
+      f.write(str(face))
+    for key in other.F:
+      face = other.F[key]
+      f.write(str(face))
+    f.close()
+
+    Edges = deepcopy(self.Elements)
+    Edges.update(other.Elements)
+
+    f = open(file+".ari","w")
+    f.write("Archivo de vértices\n#################################\nNombre  x       y       Incidente\n#################################\n")
+    f.close()
+    f = open(file+".ari","a")
+    for index in range(0,len(barr.R),2):
+      S = barr.R[index+1]
+      for segmento in S:
+        edge = Edges[segmento.Edge.name]
+        couple = Edges[segmento.Edge.couple]
+        edge.setCouple(edge.couple+"'")
+        couple.setCouple(couple.couple+"'")
+        edge.setPrevious(edge.couple)
+        couple.setPrevious(couple.couple) 
+        newEdge = Edge([edge.name+"'","pi"+str(index),couple.name,edge.face,edge.next,edge.name])
+        newCouple = Edge([couple.name+"'","pi"+str(index),edge.name,couple.face,couple.next,couple.name])        
+        edge.setNext("")
+        couple.setNext("")  
+        newEdge.setPrevious("")
+        newCouple.setPrevious("")   
+        f.write(str(edge))
+        f.write(str(couple))
+        f.write(str(newEdge))
+        f.write(str(newCouple))
+    
+    f.close()

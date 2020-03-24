@@ -1,0 +1,12 @@
+Archivo de vértices
+#################################
+Nombre  x       y       Incidente
+#################################
+s21		p3		s22'		f2				s22'
+s22		p4		s21'		f2				s21'
+s21'		pi0		s22		f2		s22		
+s22'		pi0		s21		f2		s21		
+s11		p1		s12'		f1				s12'
+s12		p2		s11'		f1				s11'
+s11'		pi0		s12		f1		s12		
+s12'		pi0		s11		f1		s11		

@@ -8,6 +8,9 @@ class Edge:
     self.next = line[4]
     self.previous = line[5]
 
+  def setName(self):
+    self.name = self.name + "'"
+
   def setOrigin(self,origin):
     self.origin = origin
 
@@ -27,4 +30,4 @@ class Edge:
     return self.name
 
   def __str__(self):
-    return self.name + " " + repr(self.origin) + " " + repr(self.couple) + " " + repr(self.face) + " " + repr(self.next) + " " + repr(self.previous)
+    return self.name + "\t\t" + self.origin + "\t\t" + self.couple + "\t\t" + self.face + "\t\t" + self.next + "\t\t" + self.previous + "\n"

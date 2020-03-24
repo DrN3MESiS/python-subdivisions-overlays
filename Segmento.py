@@ -1,12 +1,14 @@
 from Punto import Punto
+from Edge import Edge
 from math import inf
 from colorama import Fore as F
 from colorama import Style as S
 
 class Segmento:
-  def __init__(self, p1=Punto(),p2=Punto()):
+  def __init__(self, edge, p1=Punto(),p2=Punto()):
     self.puntos = sorted([p1,p2])
     self.x = p1.x
+    self.Edge = edge
   def __repr__(self):
     return f"[{self.puntos[0]}, {self.puntos[1]}]"
   def __hash__(self):
