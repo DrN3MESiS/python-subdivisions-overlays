@@ -56,6 +56,7 @@ def reconstructSegments(data, EDGES):
                         newEDGES.append(Edge(name2, e_start, name1))
                         newEDGES.append(Edge(name3, e_end, name4))
                         newEDGES.append(Edge(name4, curIntersectPoint, name3))
+                        EDGES.remove(edge.pair)
                         EDGES.remove(edge)
         i += 1
     EDGES.extend(newEDGES)
