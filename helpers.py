@@ -38,16 +38,16 @@ def reconstructSegments(data, EDGES):
     newEDGES = []
     i = 0
     
-    for d in data:
-        curIntersectPoint = data[i-1]
-        if i % 2 != 0:
-            for segment in d:
+    for d in data: # Por cada elemento en el barr.R (Objeto de intersecciones)
+        curIntersectPoint = data[i-1] #Tomar el punto de interseccion y guardarlo
+        if i % 2 != 0: # Cada dos posiciones (cuando d sea los segmentos que intersectan en el p de interseccion) tomar el diccionario de segmentos
+            for segment in d:  # Por cada segmento de la interseccion
                 s_start = segment.puntos[0]
                 s_end = segment.puntos[1]
-                for edge in EDGES:
+                for edge in EDGES: # Buscar el edge que es igual a ese segmento
                     e_start = edge.start
                     e_end = edge.pair.start
-                    if s_start == e_start and s_end == e_end:
+                    if s_start == e_start and s_end == e_end: #Cuando encuentra un match, crear los nuevos segmentos
                         name1 = edge.gN() + "'"
                         name2 = edge.gN() + "''"
                         name3 = edge.gN() + "'''"
@@ -56,8 +56,8 @@ def reconstructSegments(data, EDGES):
                         newEDGES.append(Edge(name2, e_start, name1))
                         newEDGES.append(Edge(name3, e_end, name4))
                         newEDGES.append(Edge(name4, curIntersectPoint, name3))
-                        EDGES.remove(edge.pair)
-                        EDGES.remove(edge)
+                        EDGES.remove(edge.pair) #Remover la pareja del edge que hace match al segmento
+                        EDGES.remove(edge) #Remover el edge que hace match al asegmento
         i += 1
     EDGES.extend(newEDGES)
 
@@ -78,14 +78,14 @@ def constructFromIALG(data, EDGES):
 
 def addIntersectionsToModel(data, EDGES, VERTEX):
     tempData = copy.deepcopy(data)
-    vs = constructFromIALG(tempData, EDGES)
+    vs = constructFromIALG(tempData, EDGES) # Crear los Vertex: Intersecciones con sus respectivos datos
     tempData = copy.deepcopy(data)
     i = 1
     for item in tempData:
         if type(item) == Punto:
             tempData[i-1] = f"v{i}"
-    VERTEX.extend(vs)
-    EDGES = reconstructSegments(tempData, EDGES)
+    VERTEX.extend(vs) # Agregar V: interseccion al array de puntos
+    EDGES = reconstructSegments(tempData, EDGES) # Reconstruir el modelo con los nuevos puntos
     
 
 

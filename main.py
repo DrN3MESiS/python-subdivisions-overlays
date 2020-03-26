@@ -20,9 +20,9 @@ def main():
 
     # Double Linked Intersections
     print("\n\n")
-    resetMemDir(VERTEX, EDGES)
-    addIntersectionsToModel(barr.R, EDGES, VERTEX)
-    resetMemDir(VERTEX, EDGES)
+    resetMemDir(VERTEX, EDGES) # Funcion para cambiar los nombres str de los segmentos y puntos, por sus objetos
+    addIntersectionsToModel(barr.R, EDGES, VERTEX) # Funcion para añadir las intersecciones al modelo
+    resetMemDir(VERTEX, EDGES) # Funcion para cambiar los nombres str de los segmentos y puntos, por sus objetos
     print(len(EDGES), EDGES)
 
 
