@@ -2,7 +2,7 @@ from algoritmo import AlgoritmoBarrido
 from Punto import Punto
 from Segmento import Segmento
 from Reader import getSegments
-from helpers import resetMemDir
+from helpers import resetMemDir, addIntersectionsToModel
 
 
 def main():
@@ -21,7 +21,10 @@ def main():
     # Double Linked Intersections
     print("\n\n")
     resetMemDir(VERTEX, EDGES)
-
+    print(EDGES)
+    addIntersectionsToModel(barr.R, EDGES, VERTEX)
+    resetMemDir(VERTEX, EDGES)
+    print(EDGES)
 
 
 if __name__ == "__main__":
