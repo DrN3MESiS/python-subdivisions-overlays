@@ -21,10 +21,10 @@ def main():
     # Double Linked Intersections
     print("\n\n")
     resetMemDir(VERTEX, EDGES)
-    print(EDGES)
+    print(len(EDGES), EDGES)
     addIntersectionsToModel(barr.R, EDGES, VERTEX)
     resetMemDir(VERTEX, EDGES)
-    print(EDGES)
+    print(len(EDGES), EDGES)
 
 
 if __name__ == "__main__":

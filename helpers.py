@@ -50,8 +50,12 @@ def reconstructSegments(data, EDGES):
                     if s_start == e_start and s_end == e_end:
                         name1 = edge.gN() + "'"
                         name2 = edge.gN() + "''"
+                        name3 = edge.gN() + "'''"
+                        name4 = edge.gN() + "'''"
                         newEDGES.append(Edge(name1, curIntersectPoint, name2))
                         newEDGES.append(Edge(name2, e_start, name1))
+                        newEDGES.append(Edge(name3, e_end, name4))
+                        newEDGES.append(Edge(name4, curIntersectPoint, name3))
                         EDGES.remove(edge)
         i += 1
     EDGES.extend(newEDGES)
