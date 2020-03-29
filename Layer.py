@@ -58,20 +58,10 @@ class Layer:
 
   def layer_union(self,other):
     segmentos = self.get_segmentos()
-
     segmentos.extend(other.get_segmentos())
-    
-    # s3 = Segmento(Punto(0,10),Punto(10,0))
-    # s4 = Segmento(Punto(0,0),Punto(10,10))
-
-    # segmentos = [s3,s4]
-
-    for s in segmentos:
-        print(s)
 
     barr = AlgoritmoBarrido(segmentos)
     barr.barrer()
-    print(barr.R)
 
     file = "union_layer"
 
@@ -101,33 +91,65 @@ class Layer:
     for key in other.F:
       face = other.F[key]
       f.write(str(face))
-    f.close()
-
-    Edges = deepcopy(self.Elements)
-    Edges.update(other.Elements)
+    f.close() 
 
     f = open(file+".ari","w")
-    f.write("Archivo de vértices\n#################################\nNombre  x       y       Incidente\n#################################\n")
+    f.write("Archivo de aristas\n#############################################\nNombre  Origen  Pareja  Cara    Sigue   Antes\n#############################################\n")
+    f.close()
+    f = open(file+".ari","a")
+    for key in self.E:
+      edge = self.E[key]
+      couple = self.Elements[edge.couple]
+      f.write(str(edge))
+      f.write(str(couple))
+    for key in other.E:
+      edge = other.E[key]
+      couple = other.Elements[edge.couple]
+      f.write(str(edge))
+      f.write(str(couple))
+
+    f.close()   
+    
+    layer = Layer(file) 
+
+    f = open(file+".ari","w")
+    f.write("Archivo de aristas\n#############################################\nNombre  Origen  Pareja  Cara    Sigue   Antes\n#############################################\n")
     f.close()
     f = open(file+".ari","a")
     for index in range(0,len(barr.R),2):
       S = barr.R[index+1]
+      CW = []
+      CWD = dict()
       for segmento in S:
-        edge = Edges[segmento.Edge.name]
-        couple = Edges[segmento.Edge.couple]
+        v = layer.V["pi"+str(index)]
+        edge = layer.Elements[segmento.Edge.name]
+        couple = layer.Elements[segmento.Edge.couple]
         edge.setCouple(edge.couple+"'")
         couple.setCouple(couple.couple+"'")
         edge.setPrevious(edge.couple)
         couple.setPrevious(couple.couple) 
         newEdge = Edge([edge.name+"'","pi"+str(index),couple.name,edge.face,edge.next,edge.name])
-        newCouple = Edge([couple.name+"'","pi"+str(index),edge.name,couple.face,couple.next,couple.name])        
-        edge.setNext("")
-        couple.setNext("")  
-        newEdge.setPrevious("")
-        newCouple.setPrevious("")   
+        newCouple = Edge([couple.name+"'","pi"+str(index),edge.name,couple.face,couple.next,couple.name])
+        layer.Elements[edge.name+"'"] = newEdge
+        layer.Elements[couple.name+"'"] = newCouple
+        edgeCW = Vertex.cw(v,layer.Elements[edge.origin])
+        coupleCW = Vertex.cw(v,layer.Elements[couple.origin])
+        CWD[edgeCW] = edge 
+        CWD[coupleCW] = couple         
+        CW.append(edgeCW)
+        CW.append(coupleCW)    
+      CW.sort() 
+      for index in range(len(CW)):
+        edge = layer.Elements[CWD[CW[index]].name]
+        couple = layer.Elements[edge.couple]
+        previous = layer.Elements[CWD[CW[index-1]].name]
+        aux = index + 1
+        if(aux >= len(CW)):
+          aux = 0
+        next = layer.Elements[layer.Elements[CWD[CW[aux]].name].couple]
+        couple.setPrevious(previous.name)
+        edge.setNext(next.name)
         f.write(str(edge))
         f.write(str(couple))
-        f.write(str(newEdge))
-        f.write(str(newCouple))
     
-    f.close()
+    f.close()  

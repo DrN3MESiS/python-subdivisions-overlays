@@ -1,5 +1,5 @@
 from Layer import Layer
-
+import math
 
 def main():
   dir = "ejemplo_01/"

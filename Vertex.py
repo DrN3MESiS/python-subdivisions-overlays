@@ -1,3 +1,5 @@
+import math
+
 class Vertex:
 
   def __init__(self,line):
@@ -14,3 +16,12 @@ class Vertex:
 
   def __str__(self):
     return self.name + "\t\t" + str(self.x) + "\t\t" + str(self.y) + "\t\t" + self.edge + "\n"
+
+  @staticmethod
+  def cw(origin,end):
+    y = end.y - origin.y
+    x = end.x - origin.x
+    cw = math.atan2(x,y)  
+    if(cw < 0):
+      cw = cw + 6
+    return cw
