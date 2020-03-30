@@ -3,6 +3,11 @@ from Punto import Punto
 from Vertex import Vertex
 import itertools
 import copy
+import math
+
+def vertexY(v):
+    return v.y
+
 
 def pairwise(iterable):
         "s -> (s0,s1), (s1,s2), (s2, s3), ..."
@@ -11,6 +16,12 @@ def pairwise(iterable):
         return zip(a, b)  
 
 def getAngle(P0, P1):
+    dy = P1.y - P0.y
+    dx = P1.x - P0.x
+    r = math.atan2(dy, dx)
+    return r
+
+def leftImmidiatePoint():
     pass
 
 def resetMemDir(VERTEX, EDGES):
@@ -88,4 +99,16 @@ def addIntersectionsToModel(data, EDGES, VERTEX):
     EDGES = reconstructSegments(tempData, EDGES) # Reconstruir el modelo con los nuevos puntos
     
 
+def getEdgeByStart(EDGES, pName):
+    for edge in EDGES:
+        if edge.gS() == pName:
+            return edge
 
+def getEdgeByEnd(EDGES, pName):
+    for edge in EDGES:
+        if edge.gS() == pName:
+            return edge.pair()
+
+def orderNextPrev(OrderedPoints, VERTEXLIST, EDGELIST):
+    for p in OrderedPoints:
+        print(p)
