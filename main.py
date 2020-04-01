@@ -82,16 +82,28 @@ def main():
             
         v.closestEdge = closestEdge
     # Determine Cycles
+    for e in EDGES:
+        print(e)
+
+    print("\n\n\n")
     cycles = []
     markedEdges = []
     i = 1
-    for curEdge in EDGES:
+    for firstEdge in EDGES:
         if markedEdges.__contains__(curEdge):
             continue
         else:
-            curCycle = Cycle('c'+str(i))
-            curCycle.addEdge(curEdge)
+            curCycle = Cycle('c'+str(i)) #Start new cycle
+            curCycle.addEdge(firstEdge) #Add the current Edge as the init cycle
             
+            curEdge = firstEdge
+            while True:
+                nextEdge = curEdge.gNe()
+                curCycle.addEdge(nextEdge)
+                if helpers.checkIfCycleHasBeenCompleted(curCycle):
+                    break
+                curEdge = nextEdge
+
             for newEdge in EDGES:
                 if curEdge == newEdge:
                     continue
