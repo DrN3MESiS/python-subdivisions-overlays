@@ -1,6 +1,6 @@
 from Edge import Edge
 from Face import Face
-from Vertex import Vertex
+from Punto import Punto
 from Segmento import Segmento
 from Punto import Punto
 from algoritmo import AlgoritmoBarrido
@@ -21,8 +21,8 @@ class Layer:
     for vertex in f.readlines():
         line = vertex.split()
         if(line[0][0] == 'p'):
-          self.Elements[line[0]] = Vertex(line)
-          self.V[line[0]] = Vertex(line)
+          self.Elements[line[0]] = Punto(0,0,line)
+          self.V[line[0]] = Punto(0,0,line)
     f.close()
 
     f = open(file+".car","r")
@@ -77,7 +77,7 @@ class Layer:
       f.write(str(vertex))
     for index in range(0,len(barr.R),2):
       coord = barr.R[index]
-      vertex = Vertex(["pi"+str(index),str(coord.x),str(coord.y),list(barr.R[index+1])[0].Edge.name])
+      vertex = Punto(0,0,["pi"+str(index),str(coord.x),str(coord.y),list(barr.R[index+1])[0].Edge.name])
       f.write(str(vertex))
     f.close()
 
@@ -132,8 +132,8 @@ class Layer:
         newCouple = Edge([couple.name+"'","pi"+str(index),edge.name,couple.face,couple.next,couple.name])
         layer.Elements[edge.name+"'"] = newEdge
         layer.Elements[couple.name+"'"] = newCouple
-        edgeCW = Vertex.cw(v,layer.Elements[edge.origin])
-        coupleCW = Vertex.cw(v,layer.Elements[couple.origin])
+        edgeCW = Punto.cw(v,layer.Elements[edge.origin])
+        coupleCW = Punto.cw(v,layer.Elements[couple.origin])
         CWD[edgeCW] = edge 
         CWD[coupleCW] = couple         
         CW.append(edgeCW)

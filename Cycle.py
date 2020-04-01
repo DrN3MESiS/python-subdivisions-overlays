@@ -1,5 +1,5 @@
 from Punto import Punto
-from Vertex import Vertex
+from Punto import Punto
 from Edge import Edge
 
 class Cycle:
@@ -16,8 +16,8 @@ class Cycle:
             next = elements[next].next 
         index = self.Edges.index(self.lefter[0].name)
         v = elements[elements[self.Edges[index]].origin]
-        a = Vertex.vector(v,elements[elements[self.Edges[index+1]].origin])
-        b = Vertex.vector(elements[elements[self.Edges[index-1]].origin],v)
+        a = Punto.vector(v,elements[elements[self.Edges[index+1]].origin])
+        b = Punto.vector(elements[elements[self.Edges[index-1]].origin],v)
         if(Edge.cross(a,b) >= 0):
             self.clockwise = True
         else:
@@ -37,7 +37,7 @@ class Cycle:
     # def get_segmento(self, elements):
     #     origin = self.lefter[1]
     #     end = elements[elements[self.lefter[0].next].origin]
-    #     return Vertex.vector(origin, end)
+    #     return Punto.vector(origin, end)
 
 
 
