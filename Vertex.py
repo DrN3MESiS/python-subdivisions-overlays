@@ -7,6 +7,8 @@ class Vertex:
         self.x = x
         self.y = y
         self.edges = edges
+        self.closestEdge = None
+        
 
     def __repr__(self):
         return f"{self.name} -> ({self.x},{self.y})"

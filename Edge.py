@@ -9,7 +9,7 @@ class Edge:
         self.previous = previousEdge
 
     def __repr__(self):
-        return f"| EDGE:{self.name} [S:({self.start.x},{self.start.y})][P:{self.pair.name}] |"
+        return f" < {self.name} -- NE:{self.next.gN()} -- PR:{self.previous.gN()} >"
 
     def gS(self):
         return self.start

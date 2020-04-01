@@ -1,4 +1,5 @@
 from Edge import Edge
+from Segmento import Segmento
 from Punto import Punto
 from Vertex import Vertex
 import itertools
@@ -14,6 +15,10 @@ def pairwise(iterable):
         a, b = itertools.tee(iterable)
         next(b, None)
         return zip(a, b)  
+
+def grouped(iterable, n):
+    "s -> (s0,s1,s2,...sn-1), (sn,sn+1,sn+2,...s2n-1), (s2n,s2n+1,s2n+2,...s3n-1), ..."
+    return zip(*[iter(iterable)]*n)
 
 def getAngle(P0, P1):
     dy = P1.y - P0.y
@@ -62,7 +67,7 @@ def reconstructSegments(data, EDGES):
                         name1 = edge.gN() + "'"
                         name2 = edge.gN() + "''"
                         name3 = edge.gN() + "'''"
-                        name4 = edge.gN() + "'''"
+                        name4 = edge.gN() + "''''"
                         newEDGES.append(Edge(name1, curIntersectPoint, name2))
                         newEDGES.append(Edge(name2, e_start, name1))
                         newEDGES.append(Edge(name3, e_end, name4))
@@ -106,9 +111,58 @@ def getEdgeByStart(EDGES, pName):
 
 def getEdgeByEnd(EDGES, pName):
     for edge in EDGES:
-        if edge.gS() == pName:
-            return edge.pair()
+        if edge.gS().gN() == pName:
+            return edge.gP()
+
+def getEdgeSegment(EDGE):
+    StartPoint = EDGE.gS()
+    EndPoint = EDGE.gP().gS()
+
+    P1 = Punto(StartPoint.x, StartPoint.y)
+    P2 = Punto(EndPoint.x, EndPoint.y)
+    
+    return Segmento(P1, P2)
 
 def orderNextPrev(OrderedPoints, VERTEXLIST, EDGELIST):
+    print()
+    clockWiseList = []
     for p in OrderedPoints:
-        print(p)
+        edge1 = getEdgeByEnd(EDGELIST, p[1].gN())
+        edge2 = edge1.gP()
+        clockWiseList.append(edge1)
+        clockWiseList.append(edge2)
+
+    i=0
+    while i < len(clockWiseList):
+        curEdge = clockWiseList[i]
+        #Set last
+        lastEdge = clockWiseList[i-1]
+        curEdge.previous = lastEdge.gN()
+
+        #Set Next
+        if i == (len(clockWiseList)-1):
+            nextEdge = clockWiseList[0]
+            curEdge.next = nextEdge.gN()
+            # print("=")
+            # print("\tLAST: ",lastEdge.gN())
+            # print("\tCUR: ",curEdge.gN())
+            # print("\tNEXT: ",nextEdge.gN())
+        else:
+            nextEdge = clockWiseList[i+1]
+            curEdge.next = nextEdge.gN()
+            # print("=")
+            # print("\tLAST: ",lastEdge.gN())
+            # print("\tCUR: ",curEdge.gN())
+            # print("\tNEXT: ",nextEdge.gN())
+        
+        i+=1
+    # print("=")
+    resetMemDir(VERTEXLIST, EDGELIST)
+
+def checkIfCycleHasBeenCompleted(cycle):
+    if cycle.edges[0] == cycle.edges[-1]:
+        return True
+    else:
+        return False
+    
+     
