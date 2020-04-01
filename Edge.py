@@ -1,3 +1,5 @@
+from Constantes import tab
+
 class Edge:    
   
   def __init__(self, line):
@@ -30,7 +32,20 @@ class Edge:
     return self.name
 
   def __str__(self):
-    return self.name + "\t\t" + self.origin + "\t\t" + self.couple + "\t\t" + self.face + "\t\t" + self.next + "\t\t" + self.previous + "\n"
+    txt = self.name + tab
+    if(self.name[-1] != "'"):
+      txt += tab
+    txt += self.origin + tab
+    if(self.origin[-1] != "'"):
+      txt += tab
+    txt += self.couple + tab   
+    if(self.couple[-1] != "'"):
+      txt += tab  
+    txt += self.face + tab + tab + self.next + tab
+    if(self.next[-1] != "'"):
+      txt += tab  
+    txt += self.previous + "\n"
+    return txt
 
   @staticmethod
   def cross(a,b):
