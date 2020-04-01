@@ -1,4 +1,5 @@
 import math
+from Punto import Punto
 
 class Vertex:
 
@@ -25,3 +26,7 @@ class Vertex:
     if(cw < 0):
       cw = cw + 6
     return cw
+
+  @staticmethod
+  def vector(origin, end):
+    return Punto(end.x - origin.x, end.y - end.x)   

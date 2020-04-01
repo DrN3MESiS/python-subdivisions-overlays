@@ -1,4 +1,6 @@
 from Layer import Layer
+from Cycles import Cycles
+from Segmento import Segmento
 import math
 
 def main():
@@ -10,7 +12,11 @@ def main():
   layer02 = Layer(dir+"layer02")
   print(layer02)
 
-  layer01.layer_union(layer02)
+  layer_union = layer01.layer_union(layer02)
+  cycles = Cycles(layer_union)
+  #cycles.get_segmentos()
+  print(cycles)
+
 
 if __name__=="__main__":
     main()

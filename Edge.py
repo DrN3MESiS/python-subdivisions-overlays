@@ -31,3 +31,7 @@ class Edge:
 
   def __str__(self):
     return self.name + "\t\t" + self.origin + "\t\t" + self.couple + "\t\t" + self.face + "\t\t" + self.next + "\t\t" + self.previous + "\n"
+
+  @staticmethod
+  def cross(a,b):
+    return a.x*b.y - a.y*b.x

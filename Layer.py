@@ -152,4 +152,5 @@ class Layer:
         f.write(str(edge))
         f.write(str(couple))
     
-    f.close()  
+    f.close() 
+    return Layer(file)  
