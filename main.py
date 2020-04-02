@@ -1,5 +1,6 @@
 from algoritmo import AlgoritmoBarrido
 from Punto import Punto
+from Face import Face
 from Segmento import Segmento
 from Reader import getSegments
 from Cycle import Cycle
@@ -9,6 +10,7 @@ import helpers
 import copy
 
 def main():
+    cInf = Cycle('Cinf', True)
     # Linked Lists
     VERTEX = []
     EDGES = []
@@ -75,26 +77,26 @@ def main():
         closestEdge = None
         closestEdgeDistance = math.inf
         for i in intersections:
-            r = math.sqrt( math.pow((i[0].x-curX),2)+math.pow((i[0].y-curY),2))
+            r = math.sqrt( math.pow((i[0].x - curX),2)+math.pow((i[0].y - curY),2))
             if r < closestEdgeDistance:
                 closestEdge = i[1]
                 closestEdgeDistance = r
             
         v.closestEdge = closestEdge
+        if v.closestEdge == None:
+            v.sC(cInf)
     # Determine Cycles
-    for e in EDGES:
-        print(e)
 
-    print("\n\n\n")
-    cycles = []
+
+    CYCLES = []
     markedEdges = []
     i = 1
     for firstEdge in EDGES:
-        if markedEdges.__contains__(curEdge):
+        if markedEdges.__contains__(firstEdge):
             continue
         else:
-            curCycle = Cycle('c'+str(i)) #Start new cycle
-            curCycle.addEdge(firstEdge) #Add the current Edge as the init cycle
+            curCycle = Cycle('c'+str(i), False)
+            curCycle.addEdge(firstEdge)
             
             curEdge = firstEdge
             while True:
@@ -104,24 +106,84 @@ def main():
                     break
                 curEdge = nextEdge
 
-            for newEdge in EDGES:
-                if curEdge == newEdge:
-                    continue
-                if newEdge == curEdge.gNe():
-                    curCycle.addEdge(newEdge)
-                    if helpers.checkIfCycleHasBeenCompleted(curCycle):
-                        break
-
-            cycles.append(curCycle)
-            print(curCycle)
+            curCycle.aC(curCycle)            
+            CYCLES.append(curCycle)
             markedEdges.extend(curCycle.edges)
                 
         i+=1
-                
+    
+    CYCLES.append(cInf)
+    
+    #For each cycle, save it's left most vertex
+    LMVs = []
+    for c in CYCLES:
+        if c.inf:
+            continue
 
+        curX = math.inf
+        curY = math.inf
+        curLMV = None
+        for e in c.edges:
+            if e.gS().x == curX:
+                eY = e.gS().y
+                if eY < curY:
+                    curX = e.gS().x
+                    curY = e.gS().y
+                    curLMV = e.gS()
+            if e.gS().x < curX:
+                curX = e.gS().x
+                curY = e.gS().y
+                curLMV = e.gS()
+        c.mLv = curLMV
+        curLMV.sC(c)
+        curLMV.sCLC(cInf)
+        LMVs.append(curLMV)
+    
+    #For each Cycle, determine if is hole or not (Angle from Edges (if angle > 180))
+    for c in CYCLES:
+        if c.inf:
+            continue
+        MLV = c.mLv
+        eA = helpers.getEdgeByStart(c.edges, MLV.gN())
+        eB = helpers.getEdgeByEnd(c.edges, MLV.gN())
 
+        z1 = helpers.getEdgeSegment(eA)
+        z2 = helpers.getEdgeSegment(eB)
+        s1 = (z1.puntos[1], z1.puntos[0])
+        s2 = (z2.puntos[1], z2.puntos[0])
         
+        theta1 = math.atan2(s1[0].y-s1[1].y,s1[0].x-s1[1].x)
+        theta2 = math.atan2(s2[0].y-s2[1].y,s2[0].x-s2[1].x)
+        
+        diff = abs(theta1-theta2)
+        angle = min(diff,abs(180-diff))
+        if angle > 180:
+            c.isHole = False
+        else:
+            c.isHole = True
 
+    #Generate Graf from each cycle
+    # Cycle is Node
+    # Arista is Cycle that is not Hole
+    Graf = []
+    for mlv in LMVs:
+        curComponent = [mlv.gC(), mlv.gCLC()]
+        Graf.append(curComponent)
+
+
+    # For each connected component in the Graf
+    print(Graf)
+    FACES =   []
+    i = 1
+
+
+    Graf = [1,2,3,4,5,6,7,8,8]
+    for i in range(len(Graf)):
+        curFace = []
+        F = Face('f'+str(i))
+        rem = Graf[i+1:]
+        
+        i+=1
 
 if __name__ == "__main__":
     main()

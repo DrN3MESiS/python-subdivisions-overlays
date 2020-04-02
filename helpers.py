@@ -103,10 +103,9 @@ def addIntersectionsToModel(data, EDGES, VERTEX):
     VERTEX.extend(vs) # Agregar V: interseccion al array de puntos
     EDGES = reconstructSegments(tempData, EDGES) # Reconstruir el modelo con los nuevos puntos
     
-
 def getEdgeByStart(EDGES, pName):
     for edge in EDGES:
-        if edge.gS() == pName:
+        if edge.gS().gN() == pName:
             return edge
 
 def getEdgeByEnd(EDGES, pName):

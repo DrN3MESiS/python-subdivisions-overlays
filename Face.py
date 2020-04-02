@@ -1,6 +1,7 @@
 class Face:
-    def __init__(self, internalEdges=[], externalEdges=[]):
+    def __init__(self, name):
         super().__init__()
+        self.name = name
         self.internalEdges = []
         self.externalEdges = []
 
