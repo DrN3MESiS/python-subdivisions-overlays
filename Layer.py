@@ -190,7 +190,6 @@ class Layer:
     for line in f:
       splittedLine = line.split()
       if newSplittedLine[0] == splittedLine[0]:
-        print(line + "->" + newLine)
         found = True
         newFileContent += newLine
       else:

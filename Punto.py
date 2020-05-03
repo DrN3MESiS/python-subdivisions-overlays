@@ -43,4 +43,4 @@ class Punto:
 
   @staticmethod
   def vector(origin, end):
-    return Punto(end.x - origin.x, end.y - end.x) 
+    return Punto(end.x - origin.x, end.y - origin.y) 
