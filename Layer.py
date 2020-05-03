@@ -76,10 +76,16 @@ class Layer:
     for key in other.V:
       vertex = other.V[key]
       f.write(str(vertex))
+    i = 0
+    R = []
     for index in range(0,len(barr.R),2):
       coord = barr.R[index]
-      vertex = Punto(0,0,["pi"+str(index),str(coord.x),str(coord.y),list(barr.R[index+1])[0].Edge.name])
-      f.write(str(vertex))
+      isVertex = self.is_vertex(other,coord)
+      if not isVertex:
+        vertex = Punto(0,0,["pi"+str(i),str(coord.x),str(coord.y),list(barr.R[index+1])[0].Edge.name])
+        f.write(str(vertex))
+        i += 1
+        R.append(barr.R[index+1])
     f.close()
 
     f = open(file+".ari","w")
@@ -101,8 +107,8 @@ class Layer:
     
     layer = Layer(file) 
 
-    for index in range(0,len(barr.R),2):
-      S = barr.R[index+1]
+    for index in range(0,len(R)):
+      S = R[index]
       CW = []
       CWD = dict()
       for segmento in S:
@@ -137,12 +143,10 @@ class Layer:
         self.replace_line(file,str(edge))
         self.replace_line(file,str(couple))
 
-
     layer_union = Layer(file)
     cycles = Cycles(layer_union)
     graph = cycles.get_graph()
 
-    file = "union_layer"
     f = open(file+".car","w")
     f.write("Archivo de caras\n#######################\nNombre  Interno Externo\n#######################\n")
     f.close()
@@ -151,13 +155,31 @@ class Layer:
     for node in graph.nodes:
       internal = node.cycle.Edges[0]
       external = node.get_last().cycle.Edges[0]
-      line = ["f"+str(count),str(None),internal]
+      line = ["f"+str(count),str(None),str(None)]
+      count += 1
       if internal != external:
         line[1] = external
+        line[2] = internal
+      else:
+        if node.cycle.clockwise:
+          line[2] = internal
+        else:
+          line[1] = external
       face = Face(line)  
       f.write(str(face))
     f.close() 
     return layer_union  
+
+  def is_vertex(self,other,coord):
+    for key in self.V:
+      vertex = self.V[key]
+      if vertex.x == coord.x and vertex.y == coord.y:
+        return True
+    for key in other.V:
+      vertex = other.V[key]
+      if vertex.x == coord.x and vertex.y == coord.y:
+        return True
+    return False  
 
   def replace_line(self,file,newLine):
     newSplittedLine = newLine.split()
