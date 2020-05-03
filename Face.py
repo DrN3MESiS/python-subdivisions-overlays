@@ -15,4 +15,4 @@ class Face:
       return self.name
 
   def __str__(self):
-    return self.name + "\t\t" + self.external + "\t\t" + self.internal + "\n"
+    return self.name + "\t\t" + self.internal + "\t\t" + self.external + "\n"

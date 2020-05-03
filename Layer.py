@@ -101,10 +101,6 @@ class Layer:
     
     layer = Layer(file) 
 
-    f = open(file+".ari","w")
-    f.write("Archivo de aristas\n#############################################\nNombre  Origen  Pareja  Cara    Sigue   Antes\n#############################################\n")
-    f.close()
-    f = open(file+".ari","a")
     for index in range(0,len(barr.R),2):
       S = barr.R[index+1]
       CW = []
@@ -138,10 +134,9 @@ class Layer:
         next = layer.Elements[layer.Elements[CWD[CW[aux]].name].couple]
         couple.setPrevious(previous.name)
         edge.setNext(next.name)
-        f.write(str(edge))
-        f.write(str(couple))
-    
-    f.close() 
+        self.replace_line(file,str(edge))
+        self.replace_line(file,str(couple))
+
 
     layer_union = Layer(file)
     cycles = Cycles(layer_union)
@@ -163,3 +158,28 @@ class Layer:
       f.write(str(face))
     f.close() 
     return layer_union  
+
+  def replace_line(self,file,newLine):
+    newSplittedLine = newLine.split()
+    newFileContent = ""
+    found = False
+
+    f = open(file+".ari","r")
+    for line in f:
+      splittedLine = line.split()
+      if newSplittedLine[0] == splittedLine[0]:
+        print(line + "->" + newLine)
+        found = True
+        newFileContent += newLine
+      else:
+        newFileContent += line  
+    f.close()
+
+    f = open(file+".ari","w")
+    f.write(newFileContent)
+    f.close()
+
+    if not found: 
+      f = open(file+".ari","a")
+      f.write(newLine)
+      f.close() 
