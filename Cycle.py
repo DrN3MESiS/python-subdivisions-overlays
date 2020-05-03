@@ -34,12 +34,16 @@ class Cycle:
             if edge in edges:
                 del edges[edge]
 
+    def set_name(self,number):
+        self.name = "C" + str(number)            
+
     # def get_segmento(self, elements):
     #     origin = self.lefter[1]
     #     end = elements[elements[self.lefter[0].next].origin]
     #     return Punto.vector(origin, end)
 
-
+    def __str__(self):
+        return self.name
 
     def __repr__(self):
         return repr(self.Edges)                    

@@ -3,6 +3,7 @@ from Face import Face
 from Punto import Punto
 from Segmento import Segmento
 from Punto import Punto
+from Cycles import Cycles
 from algoritmo import AlgoritmoBarrido
 from copy import deepcopy
 
@@ -81,18 +82,6 @@ class Layer:
       f.write(str(vertex))
     f.close()
 
-    f = open(file+".car","w")
-    f.write("Archivo de caras\n#######################\nNombre  Interno Externo\n#######################\n")
-    f.close()
-    f = open(file+".car","a")
-    for key in self.F:
-      face = self.F[key]
-      f.write(str(face))
-    for key in other.F:
-      face = other.F[key]
-      f.write(str(face))
-    f.close() 
-
     f = open(file+".ari","w")
     f.write("Archivo de aristas\n#############################################\nNombre  Origen  Pareja  Cara    Sigue   Antes\n#############################################\n")
     f.close()
@@ -153,4 +142,24 @@ class Layer:
         f.write(str(couple))
     
     f.close() 
-    return Layer(file)  
+
+    layer_union = Layer(file)
+    cycles = Cycles(layer_union)
+    graph = cycles.get_graph()
+
+    file = "union_layer"
+    f = open(file+".car","w")
+    f.write("Archivo de caras\n#######################\nNombre  Interno Externo\n#######################\n")
+    f.close()
+    f = open(file+".car","a")
+    count = 1  
+    for node in graph.nodes:
+      internal = node.cycle.Edges[0]
+      external = node.get_last().cycle.Edges[0]
+      line = ["f"+str(count),str(None),internal]
+      if internal != external:
+        line[1] = external
+      face = Face(line)  
+      f.write(str(face))
+    f.close() 
+    return layer_union  
