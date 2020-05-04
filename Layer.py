@@ -144,7 +144,7 @@ class Layer:
         replace.append([couple.next,couple.name])
     
     for r in replace:
-      self.replace_previous(file,r[0],r[1])
+      self.replace_element(file,r[0],r[1],5)
 
     layer_union = Layer(file)
     cycles = Cycles(layer_union)
@@ -159,15 +159,25 @@ class Layer:
       internal = node.cycle.Edges[0]
       external = node.get_last().cycle.Edges[0]
       line = ["f"+str(count),str(None),str(None)]
-      count += 1
       if internal != external:
         line[1] = external
         line[2] = internal
+        for cycle in node:
+          for edge in cycle.Edges:
+            self.replace_element(file,edge,"f"+str(count),3)
+        # for edge in node.get_last().cycle.Edges:
+        #   self.replace_element(file,edge,"f"+str(count),3)           
       else:
         if node.cycle.clockwise:
           line[2] = internal
+          cycle = node.cycle
+          for edge in cycle.Edges:
+            self.replace_element(file,edge,"f"+str(count),3)
         else:
           line[1] = external
+          for edge in node.get_last().cycle.Edges:
+            self.replace_element(file,edge,"f"+str(count),3)    
+      count += 1
       face = Face(line)  
       f.write(str(face))
     f.close() 
@@ -208,14 +218,14 @@ class Layer:
       f.write(newLine)
       f.close() 
 
-  def replace_previous(self,file,edge,previous):
+  def replace_element(self,file,edge,element,index):
     newFileContent = ""
 
     f = open(file+".ari","r")
     for line in f:
       splittedLine = line.split()
       if edge == splittedLine[0]:
-        splittedLine[5] = previous
+        splittedLine[index] = element
         e = Edge(splittedLine)
         newFileContent += str(e)
       else:

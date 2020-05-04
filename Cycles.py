@@ -41,3 +41,6 @@ class Cycles:
                 return left 
 
         return          
+
+    def __iter__(self):
+        return iter(self.cycles)

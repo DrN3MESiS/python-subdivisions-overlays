@@ -19,3 +19,13 @@ class Node:
             return self.next.get_last()
         else:    
             return self   
+
+    def __iter__(self):
+        next = self.next
+        nodes = [self.cycle]
+
+        while next:
+            nodes.append(next.cycle)
+            next = next.next
+
+        return iter(nodes)
