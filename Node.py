@@ -1,9 +1,9 @@
 class Node:
-    next = None
-    previous = None
 
     def __init__(self,cycle):
         self.cycle = cycle
+        self.next = None
+        self.previous = None
 
     def set_next(self,next):
         self.next = next 

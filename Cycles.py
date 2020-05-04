@@ -15,10 +15,6 @@ class Cycles:
             self.cycles.append(cycle)
             counter += 1
 
-    def get_segmentos(self): 
-        for cycle in self.cycles:
-            print(cycle.get_segmento(self.layer.Elements))
-
     def __repr__(self):
         return repr(self.cycles)   
 
@@ -44,3 +40,10 @@ class Cycles:
 
     def __iter__(self):
         return iter(self.cycles)
+
+    def get_cycle(self,edge):
+        for cycle in self:
+            if edge in cycle.Edges:
+                return cycle
+
+        return          

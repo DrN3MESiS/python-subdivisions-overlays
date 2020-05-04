@@ -14,6 +14,7 @@ class Layer:
     self.V = dict()
     self.E = dict()
     self.F = dict()
+    self.file = file
 
     self.assign_values(file)
 
@@ -150,6 +151,34 @@ class Layer:
     cycles = Cycles(layer_union)
     graph = cycles.get_graph()
 
+
+    f = open(self.file+".ari","r")
+    for line in f:
+      splittedLine = line.split()
+      if splittedLine[0][0] == 's':
+        face = self.F[splittedLine[3]]
+        edge = splittedLine[0]
+        
+        cycle = cycles.get_cycle(edge)
+        if cycle:
+          face.set_cycle(cycle)
+
+    f.close()
+
+    f = open(other.file+".ari","r")
+    for line in f:
+      splittedLine = line.split()
+      if splittedLine[0][0] == 's':
+        face = other.F[splittedLine[3]]
+        edge = splittedLine[0]
+        
+        cycle = cycles.get_cycle(edge)
+        if cycle:
+          face.set_cycle(cycle)
+
+    f.close()
+
+
     f = open(file+".car","w")
     f.write("Archivo de caras\n#######################\nNombre  Interno Externo\n#######################\n")
     f.close()
@@ -164,9 +193,7 @@ class Layer:
         line[2] = internal
         for cycle in node:
           for edge in cycle.Edges:
-            self.replace_element(file,edge,"f"+str(count),3)
-        # for edge in node.get_last().cycle.Edges:
-        #   self.replace_element(file,edge,"f"+str(count),3)           
+            self.replace_element(file,edge,"f"+str(count),3)          
       else:
         if node.cycle.clockwise:
           line[2] = internal
@@ -181,6 +208,8 @@ class Layer:
       face = Face(line)  
       f.write(str(face))
     f.close() 
+
+    layer_union = Layer(file)
     return layer_union  
 
   def is_vertex(self,other,coord):
