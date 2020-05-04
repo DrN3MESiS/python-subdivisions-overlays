@@ -115,14 +115,12 @@ class Layer:
         v = layer.V["pi"+str(index)]
         edge = layer.Elements[segmento.Edge.name]
         couple = layer.Elements[segmento.Edge.couple]
-        edge.setCouple(edge.couple+"'")
-        couple.setCouple(couple.couple+"'")
-        edge.setPrevious(edge.couple)
-        couple.setPrevious(couple.couple) 
-        newEdge = Edge([edge.name+"'","pi"+str(index),couple.name,edge.face,edge.next,edge.name])
-        newCouple = Edge([couple.name+"'","pi"+str(index),edge.name,couple.face,couple.next,couple.name])
-        layer.Elements[edge.name+"'"] = newEdge
-        layer.Elements[couple.name+"'"] = newCouple
+        edge.setCouple(edge.couple+"\'")
+        couple.setCouple(couple.couple+"\'")
+        newEdge = Edge([edge.name+"\'","pi"+str(index),couple.name,edge.face,edge.next,edge.name])
+        newCouple = Edge([couple.name+"\'","pi"+str(index),edge.name,couple.face,couple.next,couple.name])
+        layer.Elements[edge.name+"\'"] = newEdge
+        layer.Elements[couple.name+"\'"] = newCouple
         edgeCW = Punto.cw(v,layer.Elements[edge.origin])
         coupleCW = Punto.cw(v,layer.Elements[couple.origin])
         CWD[edgeCW] = edge 
@@ -142,6 +140,7 @@ class Layer:
         edge.setNext(next.name)
         self.replace_line(file,str(edge))
         self.replace_line(file,str(couple))
+        self.replace_previous(file,couple.next,couple.name)
 
     layer_union = Layer(file)
     cycles = Cycles(layer_union)
@@ -204,3 +203,26 @@ class Layer:
       f = open(file+".ari","a")
       f.write(newLine)
       f.close() 
+
+  def replace_previous(self,file,edge,previous):
+    newFileContent = ""
+
+    f = open(file+".ari","r")
+    for line in f:
+      splittedLine = line.split()
+      if edge == splittedLine[0]:
+        splittedLine[5] = previous
+        # print("changing: "+edge)
+        # print("to: "+previous)
+        # print("new: "+splittedLine[5])
+        e = Edge(splittedLine)
+        print(str(e))
+        newFileContent += str(e)
+      else:
+        print(line)
+        newFileContent += line  
+    f.close()
+
+    f = open(file+".ari","w")
+    f.write(newFileContent)
+    f.close()

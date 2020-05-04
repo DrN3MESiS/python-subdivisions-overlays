@@ -11,7 +11,7 @@ class Edge:
     self.previous = line[5]
 
   def setName(self):
-    self.name = self.name + "'"
+    self.name = self.name + "\'"
 
   def setOrigin(self,origin):
     self.origin = origin
@@ -33,17 +33,17 @@ class Edge:
 
   def __str__(self):
     txt = self.name + tab
-    if(self.name[-1] != "'"):
+    if(self.name[-1] != "\'"):
       txt += tab
     txt += self.origin + tab
-    if(self.origin[-1] != "'"):
+    if(self.origin[-1] != "\'"):
       txt += tab
     txt += self.couple + tab   
-    if(self.couple[-1] != "'"):
+    if(self.couple[-1] != "\'"):
       txt += tab  
     txt += self.face + tab + tab + self.next + tab
-    if(self.next[-1] != "'"):
-      txt += tab  
+    if(self.next[-1] != "\'"):
+      txt += tab   
     txt += self.previous + "\n"
     return txt
 
