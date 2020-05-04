@@ -107,6 +107,7 @@ class Layer:
     
     layer = Layer(file) 
 
+    replace = []
     for index in range(0,len(R)):
       S = R[index]
       CW = []
@@ -140,7 +141,10 @@ class Layer:
         edge.setNext(next.name)
         self.replace_line(file,str(edge))
         self.replace_line(file,str(couple))
-        self.replace_previous(file,couple.next,couple.name)
+        replace.append([couple.next,couple.name])
+    
+    for r in replace:
+      self.replace_previous(file,r[0],r[1])
 
     layer_union = Layer(file)
     cycles = Cycles(layer_union)
@@ -212,14 +216,9 @@ class Layer:
       splittedLine = line.split()
       if edge == splittedLine[0]:
         splittedLine[5] = previous
-        # print("changing: "+edge)
-        # print("to: "+previous)
-        # print("new: "+splittedLine[5])
         e = Edge(splittedLine)
-        print(str(e))
         newFileContent += str(e)
       else:
-        print(line)
         newFileContent += line  
     f.close()
 
