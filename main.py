@@ -16,13 +16,15 @@ def main():
 
   for key in layer01.F:
     face = layer01.F[key]
-    print(key)
-    print(face.cycles)
   for key in layer02.F:
     face = layer02.F[key]
-    print(key)
-    print(face.cycles)
-  # layer_union.F["f1"]
+  
+  # face = layer01.F['f1'].union(layer02.F['f2'])
+  # face = layer01.F['f1'].intersection(layer02.F['f2'])
+  # face = layer01.F['f1'].diferential(layer02.F['f2'])
+  # face.draw(layer_union.Elements)
+  # layer01.F['f2'].draw(layer_union.Elements)
+  # layer02.F['f4'].draw(layer_union.Elements)
 
 if __name__=="__main__":
     main()

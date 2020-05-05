@@ -44,3 +44,6 @@ class Punto:
   @staticmethod
   def vector(origin, end):
     return Punto(end.x - origin.x, end.y - origin.y) 
+
+  def pygame_point(self,scale):
+    return (5*scale+self.x*scale,5*scale+self.y*scale)

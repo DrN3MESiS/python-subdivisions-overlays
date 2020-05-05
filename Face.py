@@ -1,3 +1,5 @@
+import pygame
+
 class Face:
 
   def __init__(self,line):
@@ -29,9 +31,14 @@ class Face:
       cycles.append(cycle)
 
     for cycle in other.cycles:
-      cycles.append(cycle)
+      if cycle not in cycles:
+        cycles.append(cycle)
 
-    return cycles 
+    line = [self.name+"|"+other.name,None,None]
+    face = Face(line)
+
+    face.cycles = cycles
+    return face 
 
   def intersection(self,other):
     cycles = []
@@ -40,7 +47,11 @@ class Face:
       if cycle in other.cycles:
         cycles.append(cycle)
 
-    return cycles
+    line = [self.name+"&"+other.name,None,None]
+    face = Face(line)
+
+    face.cycles = cycles
+    return face
 
   def diferential(self,other):
     cycles = []
@@ -53,6 +64,26 @@ class Face:
       if cycle not in self.cycles:
         cycles.append(cycle)
 
-    return cycles    
+    line = [self.name+"-"+other.name,None,None]
+    face = Face(line)
 
+    face.cycles = cycles
+    return face    
+
+  def draw(self,elements):
+    white = (255,255,255)
+
+    window = pygame.display.set_mode((400,400))
+    window.fill(white)
+
+    for cycle in self.cycles:
+      cycle.draw(window,elements)
+
+    while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+
+            pygame.display.update()  
 
