@@ -1,5 +1,6 @@
 from Layer import Layer
 import math
+import pygame
 
 def main():
   dir = "ejemplo_01/"
@@ -14,15 +15,16 @@ def main():
   # print(layer02)
   # print(layer_union)
 
-  for key in layer01.F:
-    face = layer01.F[key]
-  for key in layer02.F:
-    face = layer02.F[key]
+  # for key in layer01.F:
+  #   face = layer01.F[key]
+  # for key in layer02.F:
+  #   face = layer02.F[key]
   
   # face = layer01.F['f1'].union(layer02.F['f2'])
   # face = layer01.F['f1'].intersection(layer02.F['f2'])
   # face = layer01.F['f1'].diferential(layer02.F['f2'])
-  # face.draw(layer_union.Elements)
+  # face = layer01.F['f1']
+  face.draw(layer_union)
   # layer01.F['f2'].draw(layer_union.Elements)
   # layer02.F['f4'].draw(layer_union.Elements)
 

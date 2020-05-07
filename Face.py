@@ -70,14 +70,17 @@ class Face:
     face.cycles = cycles
     return face    
 
-  def draw(self,elements):
+  def draw(self,layer):
     white = (255,255,255)
+
+    elements = layer.Elements
+    graph = layer.graph
 
     window = pygame.display.set_mode((400,400))
     window.fill(white)
 
     for cycle in self.cycles:
-      cycle.draw(window,elements)
+      cycle.draw(window,elements,graph)
 
     while True:
             for event in pygame.event.get():

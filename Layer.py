@@ -15,7 +15,8 @@ class Layer:
     self.E = dict()
     self.F = dict()
     self.file = file
-
+    self.graph = None
+    
     self.assign_values(file)
 
   def assign_values(self,file):
@@ -151,7 +152,6 @@ class Layer:
     cycles = Cycles(layer_union)
     graph = cycles.get_graph()
 
-
     f = open(self.file+".ari","r")
     for line in f:
       splittedLine = line.split()
@@ -177,7 +177,6 @@ class Layer:
           face.set_cycle(cycle)
 
     f.close()
-
 
     f = open(file+".car","w")
     f.write("Archivo de caras\n#######################\nNombre  Interno Externo\n#######################\n")
@@ -210,6 +209,7 @@ class Layer:
     f.close() 
 
     layer_union = Layer(file)
+    layer_union.graph = graph
     return layer_union  
 
   def is_vertex(self,other,coord):

@@ -7,5 +7,14 @@ class Graph:
         if node.previous == None:
             self.nodes.append(node)
 
+    def get_node(self,cycle):
+        for node in self:
+            for c in node:
+                if cycle == c:
+                    return node
+
     def __repr__(self):
-        return repr(self.nodes)      
+        return repr(self.nodes)   
+
+    def __iter__(self):
+        return iter(self.nodes)       

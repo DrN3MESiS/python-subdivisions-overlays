@@ -44,26 +44,35 @@ class Cycle:
     def __repr__(self):
         return repr(self.Edges)     
 
-    def draw(self,window,elements,scale=20,inside=True):
-        white = (255,255,255)
+    def draw(self,window,elements,graph,scale=20,inside=True):
         black = (0,0,0)     
 
-        print(self)
-
-        points = self.get_points(elements,scale)
-
-        if self.clockwise:
-            window.fill(black)
-            pygame.draw.polygon(window,white,points)
-        else:
-            pygame.draw.polygon(window,black,points)
+        points = self.get_points(elements,scale,graph)
+        pygame.draw.polygon(window,black,points)
         
         return points
 
-    def get_points(self,elements,scale):
+    def get_points(self,elements,scale,graph):
         points = []
 
+        if self.clockwise:
+            node = graph.get_node(self)
+            last = node.get_last()
+            if node == last:
+                points.append((1,399))
+                points.append((399,399))
+                points.append((399,1))
+                points.append((1,1))
+                points.append((1,399))
+            else:
+                p = node.cycle.get_points()
+                for point in p:
+                    points.append(point)
+        
         for edge in self.Edges:
             points.append(elements[elements[edge].origin].pygame_point(scale))
+
+        edge = self.Edges[0]
+        points.append(elements[elements[edge].origin].pygame_point(scale))
 
         return points
