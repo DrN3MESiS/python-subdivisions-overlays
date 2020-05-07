@@ -1,0 +1,20 @@
+Archivo de aristas
+#############################################
+Nombre  Origen  Pareja  Cara    Sigue   Antes
+#############################################
+m11     a1      m12     B1      m21     m51
+m21     a2      m22     B1      m31     m11
+m31     a3      m32     B1      m41     m21
+m41     a4      m42     B1      m51     m31
+m51     a5      m52     B1      m11     m41
+m52     a1      m51     B2      m42     m12
+m42     a5      m41     B2      m32     m52
+m32     a4      m31     B2      m22     m42
+m22     a3      m21     B2      m12     m32
+m12     a2      m11     B2      m52     m22
+s11     t1      s12     B2      s21     s31
+s21     t2      s22     B2      s31     s11
+s31     t3      s32     B2      s11     s21
+s12     t2      s11     B3      s32     s22
+s32     t1      s31     B3      s22     s12
+s22     t3      s21     B3      s12     s32

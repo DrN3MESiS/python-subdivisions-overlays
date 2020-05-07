@@ -1,0 +1,20 @@
+Archivo de aristas
+#############################################
+Nombre  Origen  Pareja  Cara    Sigue   Antes
+#############################################
+n11     c2      n12     D1      n21     n61
+n21     c3      n22     D1      n31     n11
+n31     c4      n32     D1      n41     n21
+n41     c5      n42     D1      n51     n31
+n51     c6      n52     D1      n61     n41
+n61     c1      n62     D1      n11     n51
+n62     c2      n61     D2      n52     n12
+n52     c1      n51     D2      n71     n62
+n71     c6      n72     D2      n12     n52
+n12     c3      n11     D2      n62     n71
+n32     c5      n31     D3      n22     n42
+n22     c4      n21     D3      n72     n32
+n72     c3      n71     D3      n42     n22
+n42     c6      n41     D3      n32     n72
+
+
