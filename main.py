@@ -24,7 +24,7 @@ def main():
   # face = layer01.F['f1'].intersection(layer02.F['f2'])
   # face = layer01.F['f1'].diferential(layer02.F['f2'])
   # face = layer01.F['f1']
-  face.draw(layer_union)
+  # face.draw(layer_union)
   # layer01.F['f2'].draw(layer_union.Elements)
   # layer02.F['f4'].draw(layer_union.Elements)
 

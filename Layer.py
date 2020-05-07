@@ -23,7 +23,7 @@ class Layer:
     f = open(file+".ver","r")
     for vertex in f.readlines():
         line = vertex.split()
-        if(line[0][0] == 'p'):
+        if(line[0][1].isnumeric() or line[0][1] == 'i'):
           self.Elements[line[0]] = Punto(0,0,line)
           self.V[line[0]] = Punto(0,0,line)
     f.close()
@@ -31,7 +31,7 @@ class Layer:
     f = open(file+".car","r")
     for face in f.readlines():
         line = face.split()
-        if(line[0][0] == 'f'):
+        if(line[0][1].isnumeric()):
           self.Elements[line[0]] = Face(line)
           self.F[line[0]] = Face(line)
     f.close()
@@ -39,7 +39,7 @@ class Layer:
     f = open(file+".ari","r")
     for edge in f.readlines():
         line = edge.split()
-        if(line[0][0] == 's'):
+        if(line[0][1].isnumeric()):
           self.Elements[line[0]] = Edge(line)          
           edge = Edge(line)
           if(self.E.get(edge.couple) == None):
@@ -155,7 +155,7 @@ class Layer:
     f = open(self.file+".ari","r")
     for line in f:
       splittedLine = line.split()
-      if splittedLine[0][0] == 's':
+      if splittedLine[0][1].isnumeric():
         face = self.F[splittedLine[3]]
         edge = splittedLine[0]
         
@@ -168,7 +168,7 @@ class Layer:
     f = open(other.file+".ari","r")
     for line in f:
       splittedLine = line.split()
-      if splittedLine[0][0] == 's':
+      if splittedLine[0][1].isnumeric():
         face = other.F[splittedLine[3]]
         edge = splittedLine[0]
         
